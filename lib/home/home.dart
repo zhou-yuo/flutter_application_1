@@ -16,7 +16,12 @@ class _HomePageState extends State<HomePage> {
   int _currentPage = 1;
   static const int pageSize = 20;
 
-  void _refresh() async {
+  @override
+  void initState() {
+    initList();
+  }
+
+  void initList() async {
     _currentPage = 1;
     _requestNewItems();
   }
@@ -28,13 +33,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _requestNewItems() async {
-    List<Map<String, Object>> _newItems =
-        await HomeDynamicMockData.list(_currentPage, pageSize);
+    List<Map<String, Object>> newItems =
+        HomeDynamicMockData.list(_currentPage, pageSize);
     setState(() {
       if (_currentPage > 1) {
-        _listItems += _newItems;
+        _listItems += newItems;
       } else {
-        _listItems = _newItems;
+        _listItems = newItems;
       }
     });
   }
@@ -44,7 +49,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: EasyRefresh(
         onRefresh: () async {
-          _refresh();
+          initList();
         },
         onLoad: () async {
           _load();
