@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class HomeDynamicWidget extends StatelessWidget {
   final String title;
@@ -21,7 +23,15 @@ class HomeDynamicWidget extends StatelessWidget {
           SizedBox(
             width: 100,
             height: itemHeight,
-            child: Image.network(imageUrl, scale: 1.0),
+            // child: Image.network(imageUrl),
+            child: CachedNetworkImage(
+              imageUrl: imageUrl,
+              placeholder: (context, url) =>
+                  Image.asset('assets/images/image_icon.png'),
+              // progressIndicatorBuilder: (context, url, downloadProgress) =>
+              //     CircularProgressIndicator(value: downloadProgress.progress),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+            ),
           ),
           Expanded(
             child: Column(
@@ -37,6 +47,7 @@ class HomeDynamicWidget extends StatelessWidget {
     );
   }
 
+  /// 标题
   Widget _titleWrap() {
     return Container(
       height: titleHeight,
@@ -46,8 +57,8 @@ class HomeDynamicWidget extends StatelessWidget {
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
-          fontSize: 14.0,
-          fontWeight: FontWeight.w200,
+          fontSize: 28.sp,
+          fontWeight: FontWeight.w500,
           color: Colors.black87,
         ),
       ),
